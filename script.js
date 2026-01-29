@@ -75,16 +75,13 @@ const imageMap = {
 };
 
 function changeImage(imageSrc) {
-    sunsetImage.classList.add('fade-out');
+    sunsetImage.style.opacity = '0';
     
     setTimeout(() => {
         sunsetImage.src = imageSrc;
-        sunsetImage.classList.remove('fade-out');
-        sunsetImage.classList.add('fade-in');
-        
         setTimeout(() => {
-            sunsetImage.classList.remove('fade-in');
-        }, 1000);
+            sunsetImage.style.opacity = '1';
+        }, 50);
     }, 1000);
 }
 
@@ -182,6 +179,7 @@ function showNextLine() {
 
 setTimeout(() => {
     startMusic();
+    sunsetImage.style.opacity = '1';
     showNextLine();
 }, 4000);
 
