@@ -62,12 +62,37 @@ let isTyping = false;
 const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
 const continueIndicator = document.getElementById('continue-indicator');
+const sunsetImage = document.getElementById('sunset-image');
+
+const imageMap = {
+    0: 'wave1.jpg',
+    3: 'wave2.jpg',
+    6: 'wave3.jpg',
+    9: 'sun1.jpg',
+    15: 'sun2.jpg',
+    21: 'sun3.jpg',
+    28: 'sunset.png'
+};
+
+function changeImage(imageSrc) {
+    sunsetImage.classList.add('fade-out');
+    
+    setTimeout(() => {
+        sunsetImage.src = imageSrc;
+        sunsetImage.classList.remove('fade-out');
+        sunsetImage.classList.add('fade-in');
+        
+        setTimeout(() => {
+            sunsetImage.classList.remove('fade-in');
+        }, 1000);
+    }, 1000);
+}
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer = null;
 
 const bgMusic = document.getElementById('bgMusic');
-bgMusic.volume = 0.50;
+bgMusic.volume = 0.15;
 
 let musicStarted = false;
 
@@ -124,6 +149,17 @@ function typeText(text, callback) {
             if (callback) callback();
         }
     }, typingSpeed);
+    
+    const skipTyping = () => {
+        clearInterval(typeInterval);
+        dialogueText.textContent = text;
+        isTyping = false;
+        continueIndicator.classList.remove('hidden');
+        dialogueBox.removeEventListener('dblclick', skipTyping);
+        if (callback) callback();
+    };
+    
+    dialogueBox.addEventListener('dblclick', skipTyping);
 }
 
 function showNextLine() {
@@ -132,6 +168,10 @@ function showNextLine() {
     }
     
     if (currentLine < dialogueLines.length) {
+        if (imageMap[currentLine]) {
+            changeImage(imageMap[currentLine]);
+        }
+        
         typeText(dialogueLines[currentLine]);
         currentLine++;
     } else {
