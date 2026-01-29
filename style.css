@@ -7,7 +7,7 @@
 body {
     background-color: #000;
     overflow: hidden;
-    font-family: 'Times New Roman', Times;
+    font-family: Arial, sans-serif;
 }
 
 .game-container {
