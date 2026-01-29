@@ -63,23 +63,45 @@ const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
 const continueIndicator = document.getElementById('continue-indicator');
 
-const bgMusic = new Audio('waves.mp3');
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let clickBuffer = null;
+
+const bgMusic = document.getElementById('bgMusic');
 bgMusic.volume = 0.15;
-bgMusic.loop = true;
 
 let musicStarted = false;
 
-function startMusic() {
-    if (!musicStarted) {
-        bgMusic.play().catch(e => console.log('Audio blocked'));
-        musicStarted = true;
-    }
-}
+fetch('click.mp3')
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+        clickBuffer = audioBuffer;
+        console.log('Click sound loaded');
+    })
+    .catch(e => console.error('Error loading click sound:', e));
 
 function playClickSound() {
-    const click = new Audio('click.mp3');
-    click.volume = 0.3;
-    click.play().catch(e => {});
+    if (!clickBuffer) return;
+    
+    const source = audioContext.createBufferSource();
+    const gainNode = audioContext.createGain();
+    
+    source.buffer = clickBuffer;
+    gainNode.gain.value = 0.3;
+    
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    source.start(0);
+}
+
+function startMusic() {
+    if (!musicStarted) {
+        audioContext.resume().then(() => {
+            bgMusic.play().catch(e => console.log('Music blocked'));
+            musicStarted = true;
+        });
+    }
 }
 
 function typeText(text, callback) {
@@ -88,7 +110,7 @@ function typeText(text, callback) {
     dialogueText.textContent = '';
     
     let charIndex = 0;
-    const typingSpeed = 30;
+    const typingSpeed = 50;
     
     const typeInterval = setInterval(() => {
         if (charIndex < text.length) {
