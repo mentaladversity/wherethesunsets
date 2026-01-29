@@ -13,7 +13,7 @@ const dialogueLines = [
     "I watched him rise every day and wondered if he even knew I existed.",
     "",
     "The sun never rushed.",
-    "He moves all day, but yet, it never seemed to be erratic on his movements.",
+    "He moves all day, but yet, he never seemed to be erratic on his movements.",
     "He danced with his clouds in the sky, and ever so slightly, glimmer and glow on my bed.",
     "I didn't want to pull him closer.",
     "I knew what happens when the ocean reaches for something so radiant and beautiful.",
@@ -63,16 +63,24 @@ const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
 const continueIndicator = document.getElementById('continue-indicator');
 
-const textSound = new Audio('click.mp3');
-textSound.volume = 0.3;
-
 const bgMusic = new Audio('waves.mp3');
 bgMusic.volume = 0.15;
 bgMusic.loop = true;
 
-setTimeout(() => {
-    bgMusic.play().catch(e => console.log('Audio autoplay blocked'));
-}, 1000);
+let musicStarted = false;
+
+function startMusic() {
+    if (!musicStarted) {
+        bgMusic.play().catch(e => console.log('Audio blocked'));
+        musicStarted = true;
+    }
+}
+
+function playClickSound() {
+    const click = new Audio('click.mp3');
+    click.volume = 0.3;
+    click.play().catch(e => {});
+}
 
 function typeText(text, callback) {
     isTyping = true;
@@ -85,10 +93,7 @@ function typeText(text, callback) {
     const typeInterval = setInterval(() => {
         if (charIndex < text.length) {
             dialogueText.textContent += text[charIndex];
-            
-            textSound.currentTime = 0;
-            textSound.play().catch(e => {});
-            
+            playClickSound();
             charIndex++;
         } else {
             clearInterval(typeInterval);
@@ -114,18 +119,19 @@ function showNextLine() {
 }
 
 setTimeout(() => {
+    startMusic();
     showNextLine();
 }, 4000);
 
 document.addEventListener('click', () => {
-    bgMusic.play().catch(e => {});
+    startMusic();
     if (!isTyping && currentLine > 0) {
         showNextLine();
     }
 });
 
 document.addEventListener('keydown', (e) => {
-    bgMusic.play().catch(e => {});
+    startMusic();
     if ((e.key === 'Enter' || e.key === ' ' || e.key === 'z' || e.key === 'x') && !isTyping && currentLine > 0) {
         showNextLine();
     }
