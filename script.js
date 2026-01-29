@@ -89,7 +89,7 @@ const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer = null;
 
 const bgMusic = document.getElementById('bgMusic');
-bgMusic.volume = 0.15;
+bgMusic.volume = 1;
 
 let musicStarted = false;
 
