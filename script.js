@@ -67,8 +67,8 @@ const sunsetImage = document.getElementById('sunset-image');
 const imageMap = {
     0: 'wave1.jpg',
     3: 'wave2.jpg',
-    6: 'wave3.jpg',
-    9: 'sun1.jpg',
+    7: 'wave3.jpg',
+    8: 'sun1.jpg',
     15: 'sun2.jpg',
     21: 'sun3.jpg',
     28: 'sunset.png'
