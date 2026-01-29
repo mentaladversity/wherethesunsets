@@ -69,7 +69,7 @@ const imageMap = {
     3: 'wave2.jpg',
     7: 'wave3.jpg',
     8: 'sun1.jpg',
-    15: 'sun2.jpg',
+    15: 'sun2.jpeg',
     21: 'sun3.jpg',
     28: 'sunset.png'
 };
