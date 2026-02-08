@@ -53,7 +53,7 @@ const dialogueLines = [
     "",
     "And I'm always here, waiting, not because I have to.",
     "But because I want to be the place where he rests.",
-    "And so we rest, rested as our colors collide, rested forevermore.".
+    "And so we rest, rested as our colors collide, rested forevermore.",
     "",
     "",
     ".",
