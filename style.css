@@ -30,15 +30,10 @@ body {
     color: #fff;
 }
 
-.start-content h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-}
-
 .start-content p {
-    font-size: 20px;
-    opacity: 0.8;
+    font-size: 24px;
+    opacity: 0.9;
+    letter-spacing: 1px;
     animation: pulse 2s infinite;
 }
 
@@ -126,12 +121,8 @@ body {
 }
 
 @media (max-width: 768px) {
-    .start-content h1 {
-        font-size: 36px;
-    }
-    
     .start-content p {
-        font-size: 18px;
+        font-size: 20px;
     }
     
     .dialogue-box {
@@ -156,12 +147,8 @@ body {
 }
 
 @media (max-width: 480px) {
-    .start-content h1 {
-        font-size: 28px;
-    }
-    
     .start-content p {
-        font-size: 16px;
+        font-size: 18px;
     }
     
     .dialogue-box {
