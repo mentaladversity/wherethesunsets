@@ -58,11 +58,14 @@ const dialogueLines = [
 
 let currentLine = 0;
 let isTyping = false;
+let gameStarted = false;
 
 const dialogueBox = document.getElementById('dialogue-box');
 const dialogueText = document.getElementById('dialogue-text');
 const continueIndicator = document.getElementById('continue-indicator');
 const sunsetImage = document.getElementById('sunset-image');
+const startPrompt = document.getElementById('start-prompt');
+const bgMusic = document.getElementById('bgMusic');
 
 const imageMap = {
     0: 'wave1.jpg',
@@ -74,23 +77,8 @@ const imageMap = {
     28: 'sunset.png'
 };
 
-function changeImage(imageSrc) {
-    sunsetImage.style.opacity = '0';
-    
-    setTimeout(() => {
-        sunsetImage.src = imageSrc;
-        setTimeout(() => {
-            sunsetImage.style.opacity = '1';
-        }, 50);
-    }, 1000);
-}
-
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer = null;
-
-const bgMusic = document.getElementById('bgMusic');
-
-let musicStarted = false;
 
 fetch('click.mp3')
     .then(response => response.arrayBuffer())
@@ -116,13 +104,36 @@ function playClickSound() {
     source.start(0);
 }
 
-function startMusic() {
-    if (!musicStarted) {
-        audioContext.resume().then(() => {
-            bgMusic.play().catch(e => console.log('Music blocked'));
-            musicStarted = true;
+function startGame() {
+    if (gameStarted) return;
+    gameStarted = true;
+    
+    audioContext.resume().then(() => {
+        bgMusic.play().catch(e => {
+            console.log('Music playback failed:', e);
         });
-    }
+    });
+    
+    startPrompt.style.opacity = '0';
+    setTimeout(() => {
+        startPrompt.style.display = 'none';
+    }, 1000);
+    
+    setTimeout(() => {
+        sunsetImage.style.opacity = '1';
+        showNextLine();
+    }, 1000);
+}
+
+function changeImage(imageSrc) {
+    sunsetImage.style.opacity = '0';
+    
+    setTimeout(() => {
+        sunsetImage.src = imageSrc;
+        setTimeout(() => {
+            sunsetImage.style.opacity = '1';
+        }, 50);
+    }, 1000);
 }
 
 function typeText(text, callback) {
@@ -176,21 +187,23 @@ function showNextLine() {
     }
 }
 
-setTimeout(() => {
-    startMusic();
-    sunsetImage.style.opacity = '1';
-    showNextLine();
-}, 4000);
+startPrompt.addEventListener('click', startGame);
 
-document.addEventListener('click', () => {
-    startMusic();
+document.addEventListener('click', (e) => {
+    if (!gameStarted) return;
     if (!isTyping && currentLine > 0) {
         showNextLine();
     }
 });
 
 document.addEventListener('keydown', (e) => {
-    startMusic();
+    if (!gameStarted) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            startGame();
+        }
+        return;
+    }
+    
     if ((e.key === 'Enter' || e.key === ' ' || e.key === 'z' || e.key === 'x') && !isTyping && currentLine > 0) {
         showNextLine();
     }
