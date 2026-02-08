@@ -179,8 +179,10 @@ function showNextLine() {
         typeText(dialogueLines[currentLine]);
         currentLine++;
     } else {
-        dialogueText.textContent = "";
-        continueIndicator.classList.add('hidden');
+        dialogueBox.style.opacity = '0';
+        setTimeout(() => {
+            dialogueBox.style.display = 'none';
+        }, 1000);
     }
 }
 
