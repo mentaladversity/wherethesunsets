@@ -64,7 +64,7 @@ const dialogueLines = [
     "...hey ace",
     "I wanted to make something really special this valentines",
     "I didn't know what to make though, and I've seen your tiktoks on how you make something by yourself towards me",
-    "I wanted to do that, and vex gave me some pointers on making a visual novel, while also reviewing site as well",
+    "I wanted to do that, and vex gave me some pointers on making a visual novel, while also reviewing the site as well",
     "I didn't have enough time though LOL, and obviously I didn't have the best of management on my electronics",
     "but, I do wish you like this little gift I made from scratch",
     "it's not much, but it was made with care, and I hope you see it",
