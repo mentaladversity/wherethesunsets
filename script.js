@@ -80,27 +80,13 @@ const imageMap = {
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer = null;
 
-bgMusic.addEventListener('loadeddata', () => {
-    console.log('Audio file loaded successfully');
-});
-
-bgMusic.addEventListener('error', (e) => {
-    console.error('Audio loading error:', e);
-    console.error('Audio error code:', bgMusic.error);
-});
-
-bgMusic.addEventListener('canplay', () => {
-    console.log('Audio can play');
-});
-
 fetch('click.mp3')
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
     .then(audioBuffer => {
         clickBuffer = audioBuffer;
-        console.log('Click sound loaded');
     })
-    .catch(e => console.error('Error loading click sound:', e));
+    .catch(e => {});
 
 function playClickSound() {
     if (!clickBuffer) return;
@@ -121,21 +107,9 @@ function startGame() {
     if (gameStarted) return;
     gameStarted = true;
     
-    console.log('Starting game...');
-    console.log('Audio element:', bgMusic);
-    console.log('Audio src:', bgMusic.src);
-    console.log('Audio readyState:', bgMusic.readyState);
-    
     audioContext.resume().then(() => {
-        console.log('AudioContext resumed');
-        bgMusic.play().then(() => {
-            console.log('Music playing successfully!');
-        }).catch(e => {
-            console.error('Music playback failed:', e);
-        });
-    }).catch(e => {
-        console.error('AudioContext resume failed:', e);
-    });
+        bgMusic.play().catch(e => {});
+    }).catch(e => {});
     
     startPrompt.style.opacity = '0';
     setTimeout(() => {
