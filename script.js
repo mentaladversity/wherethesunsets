@@ -70,7 +70,7 @@ const dialogueLines = [
     "it's not much, but it was made with care, and I hope you see it",
     "so happy valentine's day, I would give you chocolates if I was there lmao",
     "With love,",
-    "- Steven"
+    "- ad"
 ];
 
 let currentLine = 0;
