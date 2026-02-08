@@ -32,18 +32,8 @@ body {
 
 .start-content p {
     font-size: 24px;
-    opacity: 0.9;
+    opacity: 1;
     letter-spacing: 1px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 0.4;
-    }
-    50% {
-        opacity: 1;
-    }
 }
 
 .game-container {
