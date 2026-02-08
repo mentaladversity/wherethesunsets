@@ -80,6 +80,19 @@ const imageMap = {
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let clickBuffer = null;
 
+bgMusic.addEventListener('loadeddata', () => {
+    console.log('Audio file loaded successfully');
+});
+
+bgMusic.addEventListener('error', (e) => {
+    console.error('Audio loading error:', e);
+    console.error('Audio error code:', bgMusic.error);
+});
+
+bgMusic.addEventListener('canplay', () => {
+    console.log('Audio can play');
+});
+
 fetch('click.mp3')
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
@@ -108,10 +121,20 @@ function startGame() {
     if (gameStarted) return;
     gameStarted = true;
     
+    console.log('Starting game...');
+    console.log('Audio element:', bgMusic);
+    console.log('Audio src:', bgMusic.src);
+    console.log('Audio readyState:', bgMusic.readyState);
+    
     audioContext.resume().then(() => {
-        bgMusic.play().catch(e => {
-            console.log('Music playback failed:', e);
+        console.log('AudioContext resumed');
+        bgMusic.play().then(() => {
+            console.log('Music playing successfully!');
+        }).catch(e => {
+            console.error('Music playback failed:', e);
         });
+    }).catch(e => {
+        console.error('AudioContext resume failed:', e);
     });
     
     startPrompt.style.opacity = '0';
